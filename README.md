@@ -1,6 +1,6 @@
 # Nowadays Agent CLI Homebrew Tap
 
-A Homebrew tap for agent CLIs, kept as close to upstream "nowadays" releases as possible via hourly automated syncing from vendor **official** sources.
+A Homebrew tap for agent CLIs, kept as close to upstream "nowadays" releases as possible via hourly automated syncing from **official** vendor sources.
 
 Currently tracked agents:
 
@@ -12,7 +12,7 @@ More agent CLIs may be added over time.
 
 Official cask repos are maintained through community PRs and typically lag the actual published release by several point versions.
 
-This tap skips the PR step by having GitHub Actions pull version pointers and per-platform checksums directly from vendor official distribution sources every hour, so `brew upgrade` tracks upstream within minutes instead of days.
+This tap skips the PR step by having GitHub Actions pull version pointers and per-platform checksums directly from official vendor distribution sources every hour, so `brew upgrade` tracks upstream within minutes instead of days.
 
 ## Quick Start
 
@@ -31,17 +31,19 @@ brew install --cask txperl/nowadays-agent-cli/claude-code-latest   # latest chan
 
 ### Claude Code
 
-| Cask                 | Channel                            | Notes                                                                                                                                                 |
-| -------------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `claude-code`        | Mirror of `Homebrew/homebrew-cask` | Byte-for-byte copy of the upstream cask file. (e.g. v2.1.92)                                                                                          |
-| `claude-code-stable` | Anthropic GCS `/stable`            | Tracks the channel Anthropic has promoted to stable. (e.g. v2.1.97)                                                                                   |
-| `claude-code-latest` | Anthropic GCS `/latest`            | Matches the npm `@anthropic-ai/claude-code` latest tag — the channel Anthropic's official `claude.ai/install.sh` installs by default. (e.g. v2.1.112) |
+| Cask                 | Channel                            | Notes                                                                   |
+| -------------------- | ---------------------------------- | ----------------------------------------------------------------------- |
+| `claude-code`        | Mirror of `Homebrew/homebrew-cask` | Byte-for-byte copy of the upstream cask file. (e.g. v2.1.92)            |
+| `claude-code-stable` | Anthropic GCS `/stable`            | Tracks the channel Anthropic has promoted to stable. (e.g. v2.1.97)     |
+| `claude-code-latest` | Anthropic GCS `/latest`            | Matches the npm `@anthropic-ai/claude-code` latest tag. (e.g. v2.1.112) |
+
+The `claude-code-latest` channel is the one Anthropic's official `claude.ai/install.sh` installs by default.
 
 #### Sources of truth
 
 Resolved at sync time from first-party URLs; nothing is hard-coded:
 
-- GCS bucket — parsed from <https://claude.ai/install.sh>.
+- GCS bucket — parsed from [claude.ai/install.sh](https://claude.ai/install.sh).
 - `claude-code` mirror — fetched from [`Homebrew/homebrew-cask`](https://raw.githubusercontent.com/Homebrew/homebrew-cask/main/Casks/c/claude-code.rb).
 - Per-version checksums — read from `<GCS>/<version>/manifest.json`.
 
