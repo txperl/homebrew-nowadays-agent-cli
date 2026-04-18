@@ -8,20 +8,13 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-# ---- 1. Derive GCS bucket URL from the official installer ------------------
-INSTALL_SH_URL="https://claude.ai/install.sh"
-INSTALL_SH="$(curl -fsSL "$INSTALL_SH_URL")"
-
-GCS="$(printf '%s\n' "$INSTALL_SH" \
-       | sed -nE 's/^[[:space:]]*GCS_BUCKET="([^"]+)".*/\1/p' \
-       | head -1)"
-if [[ -z "$GCS" ]]; then
-  echo "failed to derive GCS_BUCKET from $INSTALL_SH_URL" >&2
-  exit 1
-fi
-GCS="${GCS%/}"
+# ---- 1. Official Claude Code download base URL ----------------------------
+# Hardcoded to the Anthropic-owned customer-facing endpoint. This is what
+# https://claude.ai/install.sh itself points at (as DOWNLOAD_BASE_URL). Kept
+# literal here so the sync can't break from upstream variable renames.
+GCS="https://downloads.claude.ai/claude-code-releases"
 GCS_VERIFIED="${GCS#https://}/"
-echo "Using GCS bucket: $GCS"
+echo "Using download base: $GCS"
 
 # ---- 2. Mirror upstream claude-code.rb ------------------------------------
 UPSTREAM_CASK_URL="https://raw.githubusercontent.com/Homebrew/homebrew-cask/main/Casks/c/claude-code.rb"

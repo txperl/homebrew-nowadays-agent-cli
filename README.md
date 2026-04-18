@@ -27,25 +27,25 @@ brew install --cask txperl/nowadays-agent-cli/claude-code-latest   # latest chan
 
 > The three `claude-code*` casks share the same `claude` binary and are **mutually exclusive** — installing a second one will fail with a Homebrew conflict error. To switch channels, `brew uninstall --cask` the current one first.
 
-## Trucked
+## Tracked
 
 ### Claude Code
 
 | Cask                 | Channel                            | Notes                                                                   |
 | -------------------- | ---------------------------------- | ----------------------------------------------------------------------- |
 | `claude-code`        | Mirror of `Homebrew/homebrew-cask` | Byte-for-byte copy of the upstream cask file. (e.g. v2.1.92)            |
-| `claude-code-stable` | Anthropic GCS `/stable`            | Tracks the channel Anthropic has promoted to stable. (e.g. v2.1.97)     |
-| `claude-code-latest` | Anthropic GCS `/latest`            | Matches the npm `@anthropic-ai/claude-code` latest tag. (e.g. v2.1.112) |
+| `claude-code-stable` | Anthropic `/stable`                | Tracks the channel Anthropic has promoted to stable. (e.g. v2.1.97)     |
+| `claude-code-latest` | Anthropic `/latest`                | Matches the npm `@anthropic-ai/claude-code` latest tag. (e.g. v2.1.112) |
 
 The `claude-code-latest` channel is the one Anthropic's official `claude.ai/install.sh` installs by default.
 
 #### Sources of truth
 
-Resolved at sync time from first-party URLs; nothing is hard-coded:
+All sync URLs live on Anthropic or Homebrew official domains:
 
-- GCS bucket — parsed from [claude.ai/install.sh](https://claude.ai/install.sh).
-- `claude-code` mirror — fetched from [`Homebrew/homebrew-cask`](https://raw.githubusercontent.com/Homebrew/homebrew-cask/main/Casks/c/claude-code.rb).
-- Per-version checksums — read from `<GCS>/<version>/manifest.json`.
+- Download base — [`downloads.claude.ai/claude-code-releases`](https://downloads.claude.ai/claude-code-releases), same endpoint [`claude.ai/install.sh`](https://claude.ai/install.sh) uses.
+- Versions & checksums — `<base>/{latest,stable}`, `<base>/<version>/manifest.json`.
+- `claude-code` mirror — [upstream Homebrew cask](https://raw.githubusercontent.com/Homebrew/homebrew-cask/main/Casks/c/claude-code.rb).
 
 See [`scripts/sync-claude-code.sh`](scripts/sync-claude-code.sh) and the [sync workflow](.github/workflows/sync-claude-code.yml).
 
