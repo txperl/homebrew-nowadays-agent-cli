@@ -1,4 +1,4 @@
-# Nowadays Agent CLI Homebrew Tap
+# Nowadays Agent CLI Tap
 
 A Homebrew tap for agent CLIs, kept as close to upstream "nowadays" releases as possible via hourly automated syncing from **official** vendor sources.
 
