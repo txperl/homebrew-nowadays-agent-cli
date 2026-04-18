@@ -1,0 +1,40 @@
+cask "claude-code-{{channel}}" do
+  arch arm: "arm64", intel: "x64"
+  os macos: "darwin", linux: "linux"
+
+  version "{{version}}"
+  sha256 arm:          "{{sha_arm}}",
+         x86_64:       "{{sha_x86_64}}",
+         arm64_linux:  "{{sha_arm64_linux}}",
+         x86_64_linux: "{{sha_x86_64_linux}}"
+
+  url "https://downloads.claude.ai/claude-code-releases/#{version}/#{os}-#{arch}/claude",
+      verified: "downloads.claude.ai/claude-code-releases/"
+  name "Claude Code"
+  desc "Terminal-based AI coding assistant (tracks Anthropic {{channel}} channel)"
+  homepage "https://www.anthropic.com/claude-code"
+
+  livecheck do
+    url "https://downloads.claude.ai/claude-code-releases/{{channel}}"
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
+
+  conflicts_with cask: [
+    "claude-code",
+    "txperl/nowadays-agent-cli/claude-code",
+    "txperl/nowadays-agent-cli/claude-code-{{peer}}",
+  ]
+
+  binary "claude"
+
+  zap trash: [
+        "~/.cache/claude",
+        "~/.claude.json*",
+        "~/.config/claude",
+        "~/.local/bin/claude",
+        "~/.local/share/claude",
+        "~/.local/state/claude",
+        "~/Library/Caches/claude-cli-nodejs",
+      ],
+      rmdir: "~/.claude"
+end

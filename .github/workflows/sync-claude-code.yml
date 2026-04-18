@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Sync casks
-        run: bash scripts/sync-claude-code.sh
+        run: python3 scripts/sync_claude_code.py
 
       - name: Commit & push if changed
         run: |

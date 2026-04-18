@@ -47,7 +47,7 @@ All sync URLs live on Anthropic or Homebrew official domains:
 - Versions & checksums — `<base>/{latest,stable}`, `<base>/<version>/manifest.json`.
 - `claude-code` mirror — [upstream Homebrew cask](https://raw.githubusercontent.com/Homebrew/homebrew-cask/main/Casks/c/claude-code.rb).
 
-See [`scripts/sync-claude-code.sh`](scripts/sync-claude-code.sh) and the [sync workflow](.github/workflows/sync-claude-code.yml).
+See [`scripts/sync_claude_code.py`](scripts/sync_claude_code.py) and the [sync workflow](.github/workflows/sync-claude-code.yml).
 
 #### Disable Claude Code's built-in auto-updater
 
