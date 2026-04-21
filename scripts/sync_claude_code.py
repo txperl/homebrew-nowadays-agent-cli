@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import urllib.request
 from pathlib import Path
@@ -51,13 +52,19 @@ def current_version(path: Path) -> str:
     return "(none)"
 
 
-def mirror_upstream_cask() -> None:
+def mirror_upstream_cask() -> bool:
     dest = CASKS_DIR / "claude-code.rb"
-    dest.write_bytes(fetch_bytes(UPSTREAM_CASK_URL))
+    new_content = fetch_bytes(UPSTREAM_CASK_URL)
+    old_content = dest.read_bytes() if dest.exists() else b""
+    if new_content == old_content:
+        print(f"Mirror unchanged: {dest.relative_to(REPO_ROOT)}")
+        return False
+    dest.write_bytes(new_content)
     print(f"Mirrored upstream cask -> {dest.relative_to(REPO_ROOT)}")
+    return True
 
 
-def render_channel(channel: str, peer: str) -> None:
+def render_channel(channel: str, peer: str) -> tuple[str, str]:
     dest = CASKS_DIR / f"claude-code-{channel}.rb"
     old = current_version(dest) if dest.exists() else "(none)"
 
@@ -80,13 +87,53 @@ def render_channel(channel: str, peer: str) -> None:
 
     dest.write_text(rendered)
     print(f"[{channel}] {old} -> {new_version}")
+    return old, new_version
+
+
+def build_commit_subject(
+    mirror_changed: bool,
+    channel_results: dict[str, tuple[str, str]],
+) -> str | None:
+    changes: list[tuple[str, str | None]] = []
+    if mirror_changed:
+        changes.append(("mirror", None))
+    for channel, (old, new) in channel_results.items():
+        if old != new:
+            changes.append((channel, new))
+
+    if not changes:
+        return None
+
+    if len(changes) == 1:
+        name, version = changes[0]
+        if version is None:
+            return "chore(cask): mirror upstream claude-code"
+        return f"chore(cask): bump claude-code-{name} to v{version}"
+
+    def fmt(entry: tuple[str, str | None]) -> str:
+        name, version = entry
+        return name if version is None else f"{name} v{version}"
+
+    return f"chore(cask): sync claude-code ({', '.join(fmt(c) for c in changes)})"
 
 
 def main() -> int:
     print(f"Using download base: {GCS}")
-    mirror_upstream_cask()
-    render_channel("latest", peer="stable")
-    render_channel("stable", peer="latest")
+    mirror_changed = mirror_upstream_cask()
+    channel_results: dict[str, tuple[str, str]] = {
+        "latest": render_channel("latest", peer="stable"),
+        "stable": render_channel("stable", peer="latest"),
+    }
+
+    subject = build_commit_subject(mirror_changed, channel_results)
+    if subject:
+        print(f"commit subject: {subject}")
+        subject_file = os.environ.get("SYNC_COMMIT_SUBJECT_FILE")
+        if subject_file:
+            Path(subject_file).write_text(subject + "\n")
+    else:
+        print("no changes")
+
     print("done.")
     return 0
 
