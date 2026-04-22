@@ -10,13 +10,27 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import urllib.request
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CASKS_DIR = REPO_ROOT / "Casks"
+README = REPO_ROOT / "README.md"
 TEMPLATE = REPO_ROOT / "scripts" / "templates" / "claude-code-channel.rb.tmpl"
+
+README_VERSION_MARKERS = {
+    "mirror": CASKS_DIR / "claude-code.rb",
+    "stable": CASKS_DIR / "claude-code-stable.rb",
+    "latest": CASKS_DIR / "claude-code-latest.rb",
+}
+
+BADGE_LABELS = {
+    "mirror": "homebrew/official",
+    "stable": "anthropic/stable",
+    "latest": "anthropic/latest",
+}
 
 GCS = "https://downloads.claude.ai/claude-code-releases"
 UPSTREAM_CASK_URL = (
@@ -90,6 +104,31 @@ def render_channel(channel: str, peer: str) -> tuple[str, str]:
     return old, new_version
 
 
+def _version_badge(marker: str, version: str) -> str:
+    label = BADGE_LABELS[marker]
+    return f"![v{version}](https://img.shields.io/badge/{label}-v{version}-blue)"
+
+
+def update_readme() -> bool:
+    original = README.read_text()
+    updated = original
+    for marker, cask_path in README_VERSION_MARKERS.items():
+        badge = _version_badge(marker, current_version(cask_path))
+        pattern = re.compile(
+            rf"(<!-- ver:{marker} -->)[^<]*(<!-- /ver:{marker} -->)"
+        )
+        updated = pattern.sub(
+            lambda m, b=badge: f"{m.group(1)}{b}{m.group(2)}",
+            updated,
+        )
+    if updated == original:
+        print("README unchanged")
+        return False
+    README.write_text(updated)
+    print("README version markers updated")
+    return True
+
+
 def build_commit_subject(
     mirror_changed: bool,
     channel_results: dict[str, tuple[str, str]],
@@ -124,6 +163,8 @@ def main() -> int:
         "latest": render_channel("latest", peer="stable"),
         "stable": render_channel("stable", peer="latest"),
     }
+
+    update_readme()
 
     subject = build_commit_subject(mirror_changed, channel_results)
     if subject:
