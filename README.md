@@ -33,9 +33,9 @@ brew install --cask txperl/nowadays-agent-cli/claude-code-latest   # latest chan
 
 | Cask                 | Channel                                                                                                               | Notes                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| `claude-code`        | <!-- ver:mirror -->![v2.1.104](https://img.shields.io/badge/homebrew/official-v2.1.104-blue)<!-- /ver:mirror -->               | Byte-for-byte copy of the upstream cask file.            |
-| `claude-code-stable` | <!-- ver:stable -->![v2.1.104](https://img.shields.io/badge/anthropic/stable-v2.1.104-blue)<!-- /ver:stable -->       | Tracks the channel Anthropic has promoted to stable.     |
-| `claude-code-latest` | <!-- ver:latest -->![v2.1.117](https://img.shields.io/badge/anthropic/latest-v2.1.117-blue)<!-- /ver:latest -->       | Matches the npm `@anthropic-ai/claude-code` latest tag.  |
+| `claude-code`        | <!-- ver:mirror -->![v2.1.108](https://img.shields.io/badge/homebrew/official-v2.1.108-blue)<!-- /ver:mirror -->               | Byte-for-byte copy of the upstream cask file.            |
+| `claude-code-stable` | <!-- ver:stable -->![v2.1.108](https://img.shields.io/badge/anthropic/stable-v2.1.108-blue)<!-- /ver:stable -->       | Tracks the channel Anthropic has promoted to stable.     |
+| `claude-code-latest` | <!-- ver:latest -->![v2.1.118](https://img.shields.io/badge/anthropic/latest-v2.1.118-blue)<!-- /ver:latest -->       | Matches the npm `@anthropic-ai/claude-code` latest tag.  |
 
 The `claude-code-latest` channel is the one Anthropic's official `claude.ai/install.sh` installs by default.
 
