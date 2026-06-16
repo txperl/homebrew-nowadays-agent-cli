@@ -33,7 +33,7 @@ brew install --cask txperl/nowadays-agent-cli/claude-code-latest   # latest chan
 
 | Cask                 | Channel                                                                                                               | Notes                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| `claude-code`        | <!-- ver:mirror -->![v2.1.153](https://img.shields.io/badge/homebrew/official-v2.1.153-blue)<!-- /ver:mirror -->               | Byte-for-byte copy of the upstream cask file.            |
+| `claude-code`        | <!-- ver:mirror -->![v2.1.169](https://img.shields.io/badge/homebrew/official-v2.1.169-blue)<!-- /ver:mirror -->               | Byte-for-byte copy of the upstream cask file.            |
 | `claude-code-stable` | <!-- ver:stable -->![v2.1.169](https://img.shields.io/badge/anthropic/stable-v2.1.169-blue)<!-- /ver:stable -->       | Tracks the channel Anthropic has promoted to stable.     |
 | `claude-code-latest` | <!-- ver:latest -->![v2.1.179](https://img.shields.io/badge/anthropic/latest-v2.1.179-blue)<!-- /ver:latest -->       | Matches the npm `@anthropic-ai/claude-code` latest tag.  |
 
