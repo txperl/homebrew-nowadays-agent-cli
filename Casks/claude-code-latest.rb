@@ -8,8 +8,7 @@ cask "claude-code-latest" do
          arm64_linux:  "fc1f75b115d6a398f6437df0e00142b073c23633b040618758a935f634427c88",
          x86_64_linux: "e14738e3a58d1fc6ccc23b9c919451b4846bc27074a3fb48db976a7d595bdeeb"
 
-  url "https://downloads.claude.ai/claude-code-releases/#{version}/#{os}-#{arch}/claude",
-      verified: "downloads.claude.ai/claude-code-releases/"
+  url "https://downloads.claude.ai/claude-code-releases/#{version}/#{os}-#{arch}/claude"
   name "Claude Code"
   desc "Terminal-based AI coding assistant (tracks Anthropic latest channel)"
   homepage "https://www.anthropic.com/claude-code"

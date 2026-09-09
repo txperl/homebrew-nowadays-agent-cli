@@ -8,8 +8,7 @@ cask "claude-code-{{channel}}" do
          arm64_linux:  "{{sha_arm64_linux}}",
          x86_64_linux: "{{sha_x86_64_linux}}"
 
-  url "https://downloads.claude.ai/claude-code-releases/#{version}/#{os}-#{arch}/claude",
-      verified: "downloads.claude.ai/claude-code-releases/"
+  url "https://downloads.claude.ai/claude-code-releases/#{version}/#{os}-#{arch}/claude"
   name "Claude Code"
   desc "Terminal-based AI coding assistant (tracks Anthropic {{channel}} channel)"
   homepage "https://www.anthropic.com/claude-code"
